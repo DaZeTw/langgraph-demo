@@ -1,0 +1,14 @@
+[project]
+name = "langgraph-fastapi-demo"
+version = "0.1.0"
+description = "FastAPI + LangGraph agent with LangSmith tracing"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "langgraph",
+    "langchain",
+    "langsmith",
+    "openai",
+    "python-dotenv",
+    "langchain-openai"
+]
