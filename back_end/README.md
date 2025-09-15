@@ -76,24 +76,31 @@ Uvicorn running on http://127.0.0.1:8000
 
 ## 📬 Example API Request
 
-POST `/ask` — Send a question to the chatbot:
+POST `/sample_agent` — Send a question to the chatbot:
 
 ```bash
-curl -X POST http://localhost:8000/ask \
+curl -X POST http://localhost:8000/copilotkit/sample_agent \
   -H "Content-Type: application/json" \
-  -d '{"question": "What is 6 times 7?"}'
-```
-
-Response:
-
-```json
-{
-  "messages": [
-    {"type": "human", "content": "What is 6 times 7?"},
-    {"type": "ai", "content": "6 times 7 is 42."},
-    {"type": "ai", "content": "I have finished processing your question: 6 times 7 is 42."}
-  ]
-}
+  -d '{
+    "threadId": "test-thread",
+    "runId": "test-run",
+    "state": {
+      "messages": [
+        {
+          "type": "human",
+          "role": "user",
+          "content": "What can you help me?"
+        }
+      ],
+      "copilotkit": {
+        "actions": []
+      }
+    },
+    "messages": [],
+    "tools": [],
+    "context": [],
+    "forwardedProps": {}
+  }'
 ```
 
 ---
