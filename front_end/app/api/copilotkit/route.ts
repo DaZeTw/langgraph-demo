@@ -24,8 +24,6 @@ export const POST = async (req: NextRequest) => {
   });
 
   const response = await handleRequest(req);
-  const responseText = await response.text();
   console.log("Response:", response);
-  console.log("Raw body content:", responseText);
   return response;
 };
