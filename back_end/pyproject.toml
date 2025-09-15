@@ -10,5 +10,6 @@ dependencies = [
     "langsmith",
     "openai",
     "python-dotenv",
-    "langchain-openai"
+    "langchain-openai",
+    "copilotkit"
 ]

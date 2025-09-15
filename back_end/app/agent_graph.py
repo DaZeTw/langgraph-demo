@@ -7,6 +7,8 @@ from langgraph.prebuilt import ToolNode, tools_condition
 from langchain_core.messages import BaseMessage, AIMessage, SystemMessage, ToolMessage
 from langchain_core.tools import tool
 from langgraph.graph.message import add_messages
+from langgraph.checkpoint.memory import MemorySaver
+
 from dotenv import load_dotenv
 import os
 
@@ -33,6 +35,7 @@ def basic_tool(messages: list[BaseMessage]) -> dict:
 def multiply(a: int, b: int) -> int:
     """Multiply two integers together."""
     result = a * b
+    print(f"[multiply] {a} * {b} = {result}")
     return result
 
 
@@ -53,7 +56,7 @@ def route_tools(state: State) -> str:
 
 
 def build_graph():
-    llm = init_chat_model("openai:gpt-4o-mini", temperature=0)
+    llm = init_chat_model("openai:gpt-5-nano", temperature=0)
     tools = [multiply]
     llm_with_tools = llm.bind_tools(tools, parallel_tool_calls=False)
 
@@ -64,7 +67,7 @@ def build_graph():
             )
         ] + state["messages"]
         response = llm_with_tools.invoke(messages)
-
+        print(f"[chatbot] response: {response}")
         return {"messages": [response]}
 
     graph = StateGraph(State)
@@ -86,4 +89,4 @@ def build_graph():
     graph.add_edge("tools", "chatbot")
     graph.add_edge("basic_tool", END)
 
-    return graph.compile()
+    return graph.compile(checkpointer=MemorySaver())
